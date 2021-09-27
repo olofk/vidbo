@@ -34,3 +34,9 @@ Make sure you have libwebsockets and verilator installed
 5. Open a new terminal in the workspace and start a webserver `python3 -m http.server --directory fusesoc_libraries/vidbo/example`
 6. Connect a browser to `localhost:8000`
 7. Have fun!
+
+References
+----------
+
+- [[olofk/verilatio] A protocol for communicating with HDL simulations over websockets](https://github.com/olofk/verilatio)
+- [[dbhi/vboard] Virtual development board for HDL design > References](https://github.com/dbhi/vboard#references)
