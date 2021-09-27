@@ -56,13 +56,13 @@ int main(int argc, char **argv, char **env) {
     "gpio.SW14",
     "gpio.SW15",
   };
-  int num_inputs = 16;
+  int num_inputs = sizeof(inputs) / sizeof(inputs[0]);
 
-  int *input_vals = (int *)calloc(16, sizeof(int));
+  int *input_vals = (int *)calloc(num_inputs, sizeof(int));
 
   vidbo_init(&vidbo_context, 8081);
 
-  vidbo_register_inputs((void *)inputs, num_inputs);
+  vidbo_register_inputs(inputs, num_inputs);
 	
   Verilated::commandArgs(argc, argv);
 
