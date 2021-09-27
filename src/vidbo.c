@@ -299,5 +299,6 @@ int vidbo_recv(vidbo_context_t *context, int *inputs) {
 }
 
 void vidbo_destroy(vidbo_context_t *context) {
+  free(input_vals);
   lws_context_destroy(context->context);
 }
