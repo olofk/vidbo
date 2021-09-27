@@ -58,8 +58,6 @@ int main(int argc, char **argv, char **env) {
   };
   int num_inputs = 16;
 
-  vidbo_register_inputs((void *)inputs, num_inputs);
-
   int *input_vals = (int *)calloc(16, sizeof(int));
 
   vidbo_init(&vidbo_context, 8081);
