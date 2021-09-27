@@ -9,7 +9,7 @@ struct Node {
   struct Node* next;
 };
 
-struct Node *head = NULL;
+static struct Node *head = NULL;
 
 struct msg {
   void *payload; /* is malloc'd */
@@ -31,12 +31,12 @@ struct per_vhost_data__minimal {
   struct msg amsg; /* the one pending message... */
 };
 
-int connected = 0;
-int pending = 0;
-int cts = 1;
-char json_buf[1024];
-const char * const json_template = "{\"%s\" : {\"%s\" : %d}}";
-int *input_vals;
+static int connected = 0;
+static int pending = 0;
+static int cts = 1;
+static char json_buf[1024];
+static const char * const json_template = "{\"%s\" : {\"%s\" : %d}}";
+static int *input_vals;
 
 static void __minimal_destroy_message(void *_msg) {
   struct msg *msg = (struct msg *)_msg;
@@ -94,18 +94,19 @@ static signed char lejp_cb(struct lejp_ctx *ctx, char reason) {
 }
 
 
-void *input_paths;
-int input_count;
+static vidbo_input *input_paths;
+static size_t input_count;
 
-void vidbo_register_inputs(void * inputs, int count) {
+void vidbo_register_inputs(vidbo_input * inputs, size_t count) {
   input_vals = (int *)calloc(count, sizeof(int));
   input_paths = inputs;
   input_count = count;
 }
 
-static void parse_json(uint8_t *buf, int len) {
+static void parse_json(uint8_t *buf, size_t len) {
+  len = len; // UNUSED
   struct lejp_ctx lejp_ctx;
-  lejp_construct(&lejp_ctx, lejp_cb, NULL, (const char * const *)input_paths, input_count);
+  lejp_construct(&lejp_ctx, lejp_cb, NULL, input_paths, (unsigned char) input_count);
   int m = lejp_parse(&lejp_ctx, (uint8_t *)buf, 1024);
   if (m < 0 && m != LEJP_CONTINUE) {
     lwsl_err("parse failed %d\n", m);
@@ -124,11 +125,9 @@ static int ws_cb(struct lws *wsi, enum lws_callback_reasons reason,
 
   int m;
   unsigned long cur_time;
-  struct Node *temp = NULL, *next;
+  struct Node *temp = NULL;
   struct Node *gpio_head = NULL;
-  struct Node *gpio_cur = NULL;
   struct Node *serial_head = NULL;
-  struct Node *serial_cur = NULL;
 
   int chars_written = 0;
   switch (reason) {
@@ -300,4 +299,5 @@ int vidbo_recv(vidbo_context_t *context, int *inputs) {
 
 void vidbo_destroy(vidbo_context_t *context) {
   lws_context_destroy(context->context);
+  free(input_vals);
 }
