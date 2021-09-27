@@ -1,0 +1,32 @@
+CAPI=2:
+
+name : ::vidbo:0
+description : Virtual Development Board
+
+filesets:
+  backend_helper:
+    files:
+      - src/vidbo.c
+      - src/vidbo.h : {is_include_file : true}
+    file_type : cSource
+
+  example:
+    files:
+      - example/top.v  : {file_type : verilogSource}
+      - example/tb.cpp : {file_type : cppSource}
+    
+targets:
+  default:
+    filesets : [backend_helper]
+    tools:
+      verilator:
+        libs: [-lwebsockets]
+
+  example:
+    default_tool : verilator
+    description : Verilator simulation example
+    filesets : [backend_helper, example]
+    tools:
+      verilator:
+        libs: [-lwebsockets]
+    toplevel : top
