@@ -87,8 +87,6 @@ static signed char lejp_cb(struct lejp_ctx *ctx, char reason) {
     if (ctx->path_match) {
       input_vals[ctx->path_match-1] = atoi(ctx->buf);
     }
-    else
-      printf("No match for %s\n", ctx->path);
   }
   return 0;
 }
