@@ -76,7 +76,9 @@
 		}
 	    }
 	    if ("serial" in json_obj) {
-		document.getElementById("uart").value += String.fromCharCode(json_obj.serial.uart);
+		uart_area = document.getElementById("uart");
+		uart_area.value += String.fromCharCode(json_obj.serial.uart);
+		uart_area.scrollTop = uart_area.scrollHeight;
 	    }
 	};
 
