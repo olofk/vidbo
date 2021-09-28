@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Nexys A7 WebSocket</title>
+    <title>Nexys A7 ViDBo</title>
   </head>
   <body>
     <input type="button" id="btConn" name="btConn" value="Connect to board">
     <input type="button" id="uartClear" value="Clear UART output">
     <textarea id="uart" rows="10" cols="80" readonly>
-    </textarea>    
+    </textarea>
     <br /><br />
     <object id="nexys-svg" data="nexys-a7-export.svg" type="image/svg+xml" width="80%" height="80%">
   </body>
@@ -40,11 +40,11 @@
 		const is_on = cy == 900;
 
 		circle.setAttribute('cy', is_on ? 850 : 900);
-		
+
 		const s = 'SW'+i;
 
 		msg.gpio[s] = is_on;
-		
+
 	    }
 	    ws.send(JSON.stringify(msg));
 	};
@@ -60,7 +60,7 @@
 	document.getElementById("uartClear").onclick = function() {
 	    document.getElementById("uart").value = "";
 	};
-	
+
 	/* Deals with messages. */
 	ws.onmessage = function (evt) {
 	    console.log(evt.data);
@@ -78,8 +78,6 @@
 	    if ("serial" in json_obj) {
 		document.getElementById("uart").value += String.fromCharCode(json_obj.serial.uart);
 	    }
-		
-		
 	};
 
 	/* Close events. */
@@ -113,7 +111,7 @@
 	    const is_on = cy == 900;
 
 	    circle.setAttribute('cy', is_on ? 850 : 900);
-	    
+
 	    const s = new String(this.getAttribute('id'));
 
 	    var msg = {gpio: {[s] : is_on}};
@@ -123,4 +121,3 @@
     },false);
   </script>
 </html>
-
