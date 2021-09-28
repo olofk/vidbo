@@ -36,7 +36,7 @@ static int pending = 0;
 static int cts = 1;
 static char json_buf[1024];
 static const char * const json_template = "{\"%s\" : {\"%s\" : %d}}";
-static int *input_vals;
+static int *input_vals = NULL;
 
 static void __minimal_destroy_message(void *_msg) {
   struct msg *msg = (struct msg *)_msg;
@@ -92,8 +92,8 @@ static signed char lejp_cb(struct lejp_ctx *ctx, char reason) {
 }
 
 
-static vidbo_input *input_paths;
-static size_t input_count;
+static vidbo_input *input_paths = NULL;
+static size_t input_count = 0;
 
 void vidbo_register_inputs(vidbo_input * inputs, size_t count) {
   input_vals = (int *)calloc(count, sizeof(int));
@@ -284,7 +284,7 @@ int vidbo_send(vidbo_context_t *context, unsigned long _time, char const *group,
 //Return 1 if new message was received
 int vidbo_recv(vidbo_context_t *context, int *inputs) {
   int retval = 0;
-  if (pending) {
+  if (pending && input_vals) {
     memcpy(inputs, input_vals, input_count*sizeof(int));
     pending = 0;
     retval = 1;
@@ -296,6 +296,7 @@ int vidbo_recv(vidbo_context_t *context, int *inputs) {
 }
 
 void vidbo_destroy(vidbo_context_t *context) {
-  free(input_vals);
+  if (input_vals)
+    free(input_vals);
   lws_context_destroy(context->context);
 }
