@@ -1,5 +1,4 @@
-Virtual Development Board
-=========================
+# Virtual Development Board
 
 A protocol for communicating with simulated development boards or chips over websockets.
 
@@ -12,8 +11,7 @@ This repository contains the following components:
 * Backend helper: C code implementing an API that can be used in applications that implement the Vidbo backend side (e.g. simulators)
 * Example project: Verilog and C++ code that implements a Vidbo backend + HTML and SVG that implements a simulated Nexys A7 development board
 
-Quick start example
--------------------
+## Quick start example
 
 This will run a simulation that exposes I/O over the vidbo interface. We will then start a web server that present the frontend as HTML and finally connect a browser to interact with the simulation through the frontend.
 
@@ -27,8 +25,7 @@ Make sure you have libwebsockets and verilator installed
 6. Connect a browser to `localhost:8000`
 7. Have fun!
 
-Background
-----------
+## Background
 
 All chip designs inevitably have some kind of inputs and outputs to the world outside of the device under test. This I/O can be modeled in different ways for different purposes. For regression tests this often takes the form of predefined stimuli sent into the device and outputs being monitored to make sure the device did the expected thing. In other cases however, there is a need to communicate interactively with the simulated design. As an example this can be a simulation of a SoC running a user program, where the user wants to send commands over a simulated UART connection and see that the program behaves as expected by observing changes in the device's output. This adds more requirements to the simulated design, especially when there are multiple types of inputs and outputs. Many solutions exist already for various cases, such as outputting the UART output on the screen, creating a window to show graphics and communicating over sockets and FIFOs. One common problem with these solutions however is that they decrease the portability by depending on external libraries which can be hard to compile on some platforms. They are also not standardized which makes reuse harder
 
@@ -45,7 +42,7 @@ Some use cases for the protocol are
 * Run and pause
 * Emulated sensors
 
-#Specification
+## Specification
 
 Messages are JSON-encoded. All messages from simulator carries a timestamp of current simulator time. This time can not be decreasing. Simulator can send messages only containing the timestamp to inform the client of the current simulation time. Several messages with the same timestamp can be sent. Several classes of I/O are defined with different characteristics such as *gpio* for single-bit binary I/O signals (e.g. LEDs, switches buttons) and *serial* for serial byte streams such as UARTs
 
@@ -96,9 +93,9 @@ TODO: How to handle non-buffered data streams like UART? One messages for each c
 
 TODO: Transfering large chunks of data such as ihex file for programming or maybe a frame from a graphics output might be split across several messages (frames?) Need to investigate if this is a problem
 
-##Protocol
+## Protocol
 
-###gpio
+### gpio
 
 Turn GPIOs on and off. GPIO can be switches, LEDs (RGB LEDs would have three pins associated with them), buttons, 7-segment displays (each segment gets its own gpio pin)
 
@@ -124,7 +121,7 @@ Example:
 }
 ```
 
-###serial
+### serial
 
 Send a byte on a byte-wide named serial channel, e.g. a UART. Each byte is sent as an integer. Values outside of 0-255 are undefined
 
@@ -149,8 +146,7 @@ Example:
 }
 ```
 
-Backend helper
---------------
+## Backend helper
 
 A C API for integrating vidbo e.g. with Verilator is supplied as well as an example to show how to connect this to the simulation loop.
 
@@ -217,15 +213,11 @@ int main(void) {
 }
 ```
 
-
-Frontend example
-----------------
+## Frontend example
 
 JavaScript, HTML and an SVG to emulate the interactive parts of a Digilent Nexys A7 board is supplied in the [example directory](example/)
 
-
-References
-----------
+## References
 
 - [[olofk/verilatio] A protocol for communicating with HDL simulations over websockets](https://github.com/olofk/verilatio)
 - [[dbhi/vboard] Virtual development board for HDL design > References](https://github.com/dbhi/vboard#references)
