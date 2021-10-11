@@ -1,3 +1,5 @@
+#include <stdio.h> //For (s)printf
+
 #include "vidbo.h"
 
 /* I hate myself for implementing a linked list here. Is this really the way to do it? */
