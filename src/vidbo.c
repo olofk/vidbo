@@ -97,7 +97,7 @@ static signed char lejp_cb(struct lejp_ctx *ctx, char reason) {
 static vidbo_input *input_paths = NULL;
 static size_t input_count = 0;
 
-void vidbo_register_inputs(vidbo_input * inputs, size_t count) {
+void vidbo_register_inputs(vidbo_context_t *context, vidbo_input * inputs, size_t count) {
   input_vals = (int *)calloc(count, sizeof(int));
   input_paths = inputs;
   input_count = count;

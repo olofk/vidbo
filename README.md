@@ -171,7 +171,7 @@ int main(void) {
   vidbo_init(&vidbo_context, 8081);
 
   /* Register inputs */
-  vidbo_register_inputs(inputs, num_inputs);
+  vidbo_register_inputs(&vidbo_context, inputs, num_inputs);
 
   const char *serstr = "Hello world\n";
   int led0 = 0;

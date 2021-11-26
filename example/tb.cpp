@@ -62,7 +62,7 @@ int main(int argc, char **argv, char **env) {
 
   vidbo_init(&vidbo_context, 8081);
 
-  vidbo_register_inputs(inputs, num_inputs);
+  vidbo_register_inputs(&vidbo_context, inputs, num_inputs);
 	
   Verilated::commandArgs(argc, argv);
 
